@@ -11,13 +11,12 @@ Process:
 Each pixel of the image is an agent that gets assigned a new random pixel each time the camera is realigned or the pixture is changed.
 Each picture has first an edge detection kernel running over it and then displaces the pixels between two edges along a sine wave that has a period double the distance between the edges.
 That results in all edges being connected by arches.
-Those arches have a random chance of going towards the camera and away.
 */
 import peasy.*;
 PeasyCam cam;
 
-// Object to keep track of matrix transforms
-MatrixTracker2D matrix = new MatrixTracker2D();
+//Random Arch direction
+boolean randomArchDirection = false;
 
 PImage[] imgs;
 int currImg = 0;
@@ -94,7 +93,7 @@ public void keyPressed(){
    }
   
   color[] processedImg = detectEdges(imgs[currImg]);
-  float[] heights = getHeightMap(processedImg,true);
+  float[] heights = getHeightMap(processedImg,randomArchDirection);
   agents = shuffle(agents);
   
   for (int i = 0; i < imgs[currImg].pixels.length; i++) {      
